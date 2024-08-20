@@ -1,0 +1,163 @@
+﻿<Window x:Class="HeroPlan.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:local="clr-namespace:HeroPlan"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="HeroPlan" Height="600" Width="1000"
+        Background="#F4F5F7"
+        WindowStartupLocation="CenterScreen">
+
+    <!-- Window resources definition -->
+    <Window.Resources>
+        <!-- Converter for transforming boolean values to colors for deadline display -->
+        <local:BoolToColorConverter x:Key="BoolToColorConverter"
+                                    TrueColor="Red"
+                                    FalseColor="Gray" />
+    </Window.Resources>
+
+    <!-- Main window grid with two columns -->
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" MinWidth="200" />
+            <!-- Left column for project list -->
+            <ColumnDefinition Width="*" />
+            <!-- Right column for task lists -->
+        </Grid.ColumnDefinitions>
+
+        <!-- Left sidebar for project boards -->
+        <DockPanel Grid.Column="0" Background="#EBECF0" LastChildFill="True">
+            <!-- Project list header -->
+            <TextBlock DockPanel.Dock="Top" Text="Projects" FontWeight="Bold" FontSize="18"
+                       HorizontalAlignment="Center" Margin="0,15,0,15" />
+
+            <!-- User management button (visible only for admin) -->
+            <Button x:Name="UserManagementButton" DockPanel.Dock="Bottom" Content="👤" 
+                    Margin="10,10,10,20" Padding="5" Background="#0079BF" Foreground="White" 
+                    Click="UserManagementButton_Click" Visibility="Collapsed"/>
+
+            <!-- Button to create a new board -->
+            <Button DockPanel.Dock="Bottom" Content="New Board" Margin="10,10,10,20"
+                    Padding="5" Background="#0079BF" Foreground="White" Click="NewBoard_Click" />
+
+            <!-- ListBox to display all projects/boards -->
+            <ListBox x:Name="ProjectListBox" Background="Transparent" Margin="5"
+                     SelectionChanged="ProjectListBox_SelectionChanged">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <!-- Layout for each project item -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Name}" FontSize="14" VerticalAlignment="Center" TextAlignment="Center" />
+                            <!-- Button to edit the project -->
+                            <Button Grid.Column="1" Content="✏️" Click="EditProject_Click"
+                                    Background="Transparent" BorderThickness="0" Padding="5,0,0,0"
+                                    VerticalAlignment="Center" />
+                            <!-- Button to delete the project -->
+                            <Button Grid.Column="2" Content="🗑️" Click="DeleteProject_Click"
+                                    Background="Transparent" BorderThickness="0" Padding="5,0,0,0"
+                                    VerticalAlignment="Center" />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </DockPanel>
+
+        <!-- Main area for task lists -->
+        <ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <StackPanel Orientation="Horizontal">
+                <!-- ItemsControl to display all task lists of the selected project -->
+                <ItemsControl x:Name="ListsItemsControl">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <!-- Uses WrapPanel for flexible arrangement of lists -->
+                            <WrapPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <!-- Layout for each task list -->
+                            <Border Background="#EBECF0" CornerRadius="3" Width="240" Margin="15,0,10,10" VerticalAlignment="Top">
+                                <StackPanel Margin="10" VerticalAlignment="Top">
+                                    <StackPanel Margin="10">
+                                        <!-- Header of the task list with name and buttons -->
+                                        <Grid Margin="0,0,0,10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding Name}" FontWeight="Bold" TextAlignment="Center" VerticalAlignment="Center" />
+                                            <!-- Button to edit the list -->
+                                            <Button Grid.Column="1" Content="✏️" Click="EditList_Click"
+                                                    Background="Transparent" BorderThickness="0" Padding="5,0,0,0"
+                                                    VerticalAlignment="Center" />
+                                            <!-- Button to delete the list -->
+                                            <Button Grid.Column="2" Content="🗑️" Click="DeleteList_Click"
+                                                    Background="Transparent" BorderThickness="0" Padding="5,0,0,0"
+                                                    VerticalAlignment="Center" />
+                                        </Grid>
+                                    </StackPanel>
+                                    <!-- ScrollViewer for tasks, to allow scrolling when there are many tasks -->
+                                    <ScrollViewer MaxHeight="400" VerticalScrollBarVisibility="Auto">
+                                        <!-- ItemsControl to display all tasks in the list -->
+                                        <ItemsControl ItemsSource="{Binding Tasks}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <!-- Layout for each task -->
+                                                    <Border Background="White" CornerRadius="3" Padding="10"
+                                                            Margin="0,0,0,10"
+                                                            MouseLeftButtonDown="Card_MouseLeftButtonDown">
+                                                        <Grid>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="Auto" />
+                                                                <RowDefinition Height="Auto" />
+                                                            </Grid.RowDefinitions>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="Auto" />
+                                                                <ColumnDefinition Width="Auto" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <!-- Task name -->
+                                                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap" FontWeight="Bold"
+                                                                       VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                                       TextAlignment="Center" Grid.ColumnSpan="3" />
+                                                            <!-- Button to edit the task -->
+                                                            <Button Grid.Column="1" Content="✏️" Click="EditTask_Click"
+                                                                    Background="Transparent" BorderThickness="0" Padding="5,0,0,0"
+                                                                    VerticalAlignment="Center" HorizontalAlignment="Right" />
+                                                            <!-- Button to delete the task -->
+                                                            <Button Grid.Column="2" Content="🗑️" Click="DeleteTask_Click"
+                                                                    Background="Transparent" BorderThickness="0" Padding="5,0,0,0"
+                                                                    VerticalAlignment="Center" HorizontalAlignment="Right" />
+                                                            <!-- Display of deadline with color highlight for overdue tasks -->
+                                                            <TextBlock Grid.Row="1" Grid.ColumnSpan="3"
+                                                                       Text="{Binding Deadline, StringFormat='Deadline: {0:d}', TargetNullValue='No Deadline'}"
+                                                                       Foreground="{Binding IsOverdue, Converter={StaticResource BoolToColorConverter}}"
+                                                                       FontSize="11" Margin="0,5,0,0" HorizontalAlignment="Center" />
+                                                        </Grid>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </ScrollViewer>
+                                    <!-- Button to add a new task to the list -->
+                                    <Button Content="+ Add a card" Background="Transparent"
+                                            BorderThickness="0" Click="AddCard_Click" />
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <!-- Button to add a new list to the current project -->
+                <Button Content="Add another list" Click="AddList_Click" VerticalAlignment="Top"
+                        Margin="10" Padding="5" />
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>
