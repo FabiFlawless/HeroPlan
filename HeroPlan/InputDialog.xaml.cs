@@ -1,14 +1,11 @@
-﻿using System.Windows;
-
-namespace HeroPlan;
-
+﻿namespace HeroPlan;
 /// <summary>
-/// Interaction logic for InputDialog.xaml
+///     Interaction logic for InputDialog.xaml
 /// </summary>
 public partial class InputDialog : Window
 {
     /// <summary>
-    /// Initializes a new instance of the InputDialog.
+    ///     Initializes a new instance of the InputDialog.
     /// </summary>
     /// <param name="owner">The owner window of this dialog.</param>
     /// <param name="title">The title of the dialog window.</param>
@@ -26,13 +23,13 @@ public partial class InputDialog : Window
     }
 
     /// <summary>
-    /// Gets the input value entered by the user.
+    ///     Gets the input value entered by the user.
     /// </summary>
     public string Input { get; private set; }
 
     /// <summary>
-    /// Handles the OK button click event.
-    /// Sets the Input property and closes the dialog with a true result.
+    ///     Handles the OK button click event.
+    ///     Sets the Input property and closes the dialog with a true result.
     /// </summary>
     private void OkButton_Click(object sender, RoutedEventArgs e)
     {
@@ -41,8 +38,8 @@ public partial class InputDialog : Window
     }
 
     /// <summary>
-    /// Handles the Cancel button click event.
-    /// Closes the dialog with a false result.
+    ///     Handles the Cancel button click event.
+    ///     Closes the dialog with a false result.
     /// </summary>
     private void CancelButton_Click(object sender, RoutedEventArgs e)
     {

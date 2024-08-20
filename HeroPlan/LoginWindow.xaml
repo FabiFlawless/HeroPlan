@@ -6,14 +6,14 @@
     <!-- Main layout container -->
     <StackPanel Margin="20">
         <!-- Username input section -->
-        <TextBlock Text="Username:"/>
-        <TextBox x:Name="UsernameTextBox" Margin="0,5,0,10"/>
+        <TextBlock Text="Username:" />
+        <TextBox x:Name="UsernameTextBox" Margin="0,5,0,10" />
 
         <!-- Password input section -->
-        <TextBlock Text="Password:"/>
-        <PasswordBox x:Name="PasswordBox" Margin="0,5,0,10"/>
+        <TextBlock Text="Password:" />
+        <PasswordBox x:Name="PasswordBox" Margin="0,5,0,10" />
 
         <!-- Login button -->
-        <Button Content="Login" Click="LoginButton_Click"/>
+        <Button Content="Login" Click="LoginButton_Click" />
     </StackPanel>
 </Window>

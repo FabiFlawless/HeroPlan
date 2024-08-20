@@ -1,11 +1,6 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-
-namespace HeroPlan;
-
+﻿namespace HeroPlan;
 /// <summary>
-/// Interaction logic for MainWindow.xaml
+///     Interaction logic for MainWindow.xaml
 /// </summary>
 public partial class MainWindow : Window
 {
@@ -14,7 +9,7 @@ public partial class MainWindow : Window
     private Board? currentBoard;
 
     /// <summary>
-    /// Initializes a new instance of the MainWindow.
+    ///     Initializes a new instance of the MainWindow.
     /// </summary>
     public MainWindow(DataService dataService)
     {
@@ -25,15 +20,16 @@ public partial class MainWindow : Window
     }
 
     /// <summary>
-    /// Updates the visibility of the user management button based on admin status.
+    ///     Updates the visibility of the user management button based on admin status.
     /// </summary>
     private void UpdateUserManagementButtonVisibility()
     {
-        UserManagementButton.Visibility = _dataService.IsAdminUser() ? Visibility.Visible : Visibility.Collapsed;
+        UserManagementButton.Visibility =
+            _dataService.IsAdminUser() ? Visibility.Visible : Visibility.Collapsed;
     }
 
     /// <summary>
-    /// Handles the click event for the user management button.
+    ///     Handles the click event for the user management button.
     /// </summary>
     private void UserManagementButton_Click(object sender, RoutedEventArgs e)
     {
@@ -43,7 +39,7 @@ public partial class MainWindow : Window
     }
 
     /// <summary>
-    /// Initializes the window asynchronously.
+    ///     Initializes the window asynchronously.
     /// </summary>
     private async void InitializeAsync()
     {
@@ -59,7 +55,7 @@ public partial class MainWindow : Window
     }
 
     /// <summary>
-    /// Loads the boards for the current user.
+    ///     Loads the boards for the current user.
     /// </summary>
     private async Task LoadBoardsAsync()
     {
@@ -69,7 +65,7 @@ public partial class MainWindow : Window
     }
 
     /// <summary>
-    /// Handles the click event for creating a new board.
+    ///     Handles the click event for creating a new board.
     /// </summary>
     private async void NewBoard_Click(object sender, RoutedEventArgs e)
     {
@@ -90,7 +86,7 @@ public partial class MainWindow : Window
     }
 
     /// <summary>
-    /// Handles the selection change event for the project list.
+    ///     Handles the selection change event for the project list.
     /// </summary>
     private async void ProjectListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
@@ -105,7 +101,7 @@ public partial class MainWindow : Window
     }
 
     /// <summary>
-    /// Handles the click event for adding a new list.
+    ///     Handles the click event for adding a new list.
     /// </summary>
     private async void AddList_Click(object sender, RoutedEventArgs e)
     {
@@ -133,7 +129,7 @@ public partial class MainWindow : Window
     }
 
     /// <summary>
-    /// Refreshes the current board.
+    ///     Refreshes the current board.
     /// </summary>
     private async Task RefreshCurrentBoard()
     {
@@ -145,13 +141,14 @@ public partial class MainWindow : Window
     }
 
     /// <summary>
-    /// Handles the click event for editing a project.
+    ///     Handles the click event for editing a project.
     /// </summary>
     private async void EditProject_Click(object sender, RoutedEventArgs e)
     {
         if (sender is FrameworkElement element && element.DataContext is Board board)
         {
-            var inputDialog = new InputDialog(this, "Rename Project", "Enter the new name for the project:", board.Name);
+            var inputDialog = new InputDialog(this, "Rename Project"
+                , "Enter the new name for the project:", board.Name);
             if (inputDialog.ShowDialog() == true)
             {
                 var newName = inputDialog.Input;
@@ -166,13 +163,14 @@ public partial class MainWindow : Window
     }
 
     /// <summary>
-    /// Handles the click event for editing a list.
+    ///     Handles the click event for editing a list.
     /// </summary>
     private async void EditList_Click(object sender, RoutedEventArgs e)
     {
         if (sender is FrameworkElement element && element.DataContext is TaskList taskList)
         {
-            var inputDialog = new InputDialog(this, "Rename List", "Enter the new name for the list:", taskList.Name);
+            var inputDialog = new InputDialog(this, "Rename List", "Enter the new name for the list:"
+                , taskList.Name);
             if (inputDialog.ShowDialog() == true)
             {
                 var newName = inputDialog.Input;
@@ -187,7 +185,7 @@ public partial class MainWindow : Window
     }
 
     /// <summary>
-    /// Handles the click event for adding a new card.
+    ///     Handles the click event for adding a new card.
     /// </summary>
     private async void AddCard_Click(object sender, RoutedEventArgs e)
     {
@@ -219,13 +217,14 @@ public partial class MainWindow : Window
     }
 
     /// <summary>
-    /// Handles the click event for editing a task.
+    ///     Handles the click event for editing a task.
     /// </summary>
     private async void EditTask_Click(object sender, RoutedEventArgs e)
     {
         if (sender is FrameworkElement element && element.DataContext is HeroTask task)
         {
-            var inputDialog = new InputDialog(this, "Rename Task", "Enter the new name for the task:", task.Name);
+            var inputDialog = new InputDialog(this, "Rename Task", "Enter the new name for the task:"
+                , task.Name);
             if (inputDialog.ShowDialog() == true)
             {
                 var newName = inputDialog.Input;
@@ -240,7 +239,7 @@ public partial class MainWindow : Window
     }
 
     /// <summary>
-    /// Handles the mouse left button down event for a card.
+    ///     Handles the mouse left button down event for a card.
     /// </summary>
     private async void Card_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
@@ -257,13 +256,15 @@ public partial class MainWindow : Window
     }
 
     /// <summary>
-    /// Handles the click event for deleting a project.
+    ///     Handles the click event for deleting a project.
     /// </summary>
     private async void DeleteProject_Click(object sender, RoutedEventArgs e)
     {
         if (sender is FrameworkElement element && element.DataContext is Board board)
         {
-            var result = MessageBox.Show($"Are you sure you want to delete the board '{board.Name}'?", "Delete Board", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            var result =
+                MessageBox.Show($"Are you sure you want to delete the board '{board.Name}'?"
+                    , "Delete Board", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (result == MessageBoxResult.Yes)
             {
                 await _dataService.DeleteBoardAsync(board.Id);
@@ -279,13 +280,15 @@ public partial class MainWindow : Window
     }
 
     /// <summary>
-    /// Handles the click event for deleting a list.
+    ///     Handles the click event for deleting a list.
     /// </summary>
     private async void DeleteList_Click(object sender, RoutedEventArgs e)
     {
         if (sender is FrameworkElement element && element.DataContext is TaskList taskList)
         {
-            var result = MessageBox.Show($"Are you sure you want to delete the list '{taskList.Name}'?", "Delete List", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            var result =
+                MessageBox.Show($"Are you sure you want to delete the list '{taskList.Name}'?"
+                    , "Delete List", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (result == MessageBoxResult.Yes)
             {
                 await _dataService.DeleteTaskListAsync(taskList.Id);
@@ -295,13 +298,14 @@ public partial class MainWindow : Window
     }
 
     /// <summary>
-    /// Handles the click event for deleting a task.
+    ///     Handles the click event for deleting a task.
     /// </summary>
     private async void DeleteTask_Click(object sender, RoutedEventArgs e)
     {
         if (sender is FrameworkElement element && element.DataContext is HeroTask task)
         {
-            var result = MessageBox.Show($"Are you sure you want to delete the task '{task.Name}'?", "Delete Task", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            var result = MessageBox.Show($"Are you sure you want to delete the task '{task.Name}'?"
+                , "Delete Task", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (result == MessageBoxResult.Yes)
             {
                 await _dataService.DeleteTaskAsync(task.Id);

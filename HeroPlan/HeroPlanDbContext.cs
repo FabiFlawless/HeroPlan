@@ -1,34 +1,31 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace HeroPlan;
-
+﻿namespace HeroPlan;
 /// <summary>
-/// Represents the database context for the HeroPlan application.
+///     Represents the database context for the HeroPlan application.
 /// </summary>
 public class HeroPlanDbContext : DbContext
 {
     /// <summary>
-    /// Gets or sets the Users table.
+    ///     Gets or sets the Users table.
     /// </summary>
     public DbSet<User> Users { get; set; }
 
     /// <summary>
-    /// Gets or sets the Boards table.
+    ///     Gets or sets the Boards table.
     /// </summary>
     public DbSet<Board> Boards { get; set; }
 
     /// <summary>
-    /// Gets or sets the TaskLists table.
+    ///     Gets or sets the TaskLists table.
     /// </summary>
     public DbSet<TaskList> TaskLists { get; set; }
 
     /// <summary>
-    /// Gets or sets the Tasks table.
+    ///     Gets or sets the Tasks table.
     /// </summary>
     public DbSet<HeroTask> Tasks { get; set; }
 
     /// <summary>
-    /// Configures the database connection.
+    ///     Configures the database connection.
     /// </summary>
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -37,7 +34,7 @@ public class HeroPlanDbContext : DbContext
     }
 
     /// <summary>
-    /// Configures the database model.
+    ///     Configures the database model.
     /// </summary>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

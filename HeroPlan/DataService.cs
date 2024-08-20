@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace HeroPlan;
-
+﻿namespace HeroPlan;
 public class DataService
 {
     private readonly HeroPlanDbContext _context;
@@ -13,7 +10,7 @@ public class DataService
     }
 
     /// <summary>
-    /// Authenticates a user with the given username and password.
+    ///     Authenticates a user with the given username and password.
     /// </summary>
     public async Task<bool> AuthenticateUserAsync(string username, string password)
     {
@@ -27,7 +24,7 @@ public class DataService
     }
 
     /// <summary>
-    /// Checks if a user is currently authenticated.
+    ///     Checks if a user is currently authenticated.
     /// </summary>
     public bool IsUserAuthenticated()
     {
@@ -35,7 +32,7 @@ public class DataService
     }
 
     /// <summary>
-    /// Retrieves a board by its ID, including its lists and tasks.
+    ///     Retrieves a board by its ID, including its lists and tasks.
     /// </summary>
     public async Task<Board?> GetBoardAsync(int boardId)
     {
@@ -46,21 +43,21 @@ public class DataService
     }
 
     /// <summary>
-    /// Retrieves all boards for the current user, including their lists and tasks.
+    ///     Retrieves all boards for the current user, including their lists and tasks.
     /// </summary>
     public async Task<List<Board>> GetBoardsAsync()
     {
         return _currentUser == null
             ? throw new InvalidOperationException("Der Benutzer ist nicht authentifiziert.")
             : await _context.Boards
-            .Where(b => b.UserId == _currentUser.Id)
-            .Include(b => b.Lists)
-            .ThenInclude(l => l.Tasks)
-            .ToListAsync();
+                .Where(b => b.UserId == _currentUser.Id)
+                .Include(b => b.Lists)
+                .ThenInclude(l => l.Tasks)
+                .ToListAsync();
     }
 
     /// <summary>
-    /// Adds a new board for the current user.
+    ///     Adds a new board for the current user.
     /// </summary>
     public async Task<Board> AddBoardAsync(string name)
     {
@@ -71,7 +68,7 @@ public class DataService
     }
 
     /// <summary>
-    /// Updates an existing board.
+    ///     Updates an existing board.
     /// </summary>
     public async Task<int> UpdateBoardAsync(Board? board)
     {
@@ -80,7 +77,7 @@ public class DataService
     }
 
     /// <summary>
-    /// Adds a new task list to a specific board.
+    ///     Adds a new task list to a specific board.
     /// </summary>
     public async Task<TaskList> AddTaskListAsync(int boardId, string name)
     {
@@ -93,7 +90,7 @@ public class DataService
     }
 
     /// <summary>
-    /// Updates an existing task list.
+    ///     Updates an existing task list.
     /// </summary>
     public async Task<int> UpdateTaskListAsync(TaskList taskList)
     {
@@ -102,7 +99,7 @@ public class DataService
     }
 
     /// <summary>
-    /// Adds a new task to a specific task list.
+    ///     Adds a new task to a specific task list.
     /// </summary>
     public async Task<HeroTask> AddTaskAsync(int taskListId, string name)
     {
@@ -128,7 +125,7 @@ public class DataService
     }
 
     /// <summary>
-    /// Updates an existing task.
+    ///     Updates an existing task.
     /// </summary>
     public async Task<int> UpdateTaskAsync(HeroTask task)
     {
@@ -137,28 +134,24 @@ public class DataService
     }
 
     /// <summary>
-    /// Adds a new user to the system.
+    ///     Adds a new user to the system.
     /// </summary>
     public async Task AddUserAsync(string username, string password)
     {
         var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
         if (existingUser != null)
-        {
             throw new InvalidOperationException("Ein Benutzer mit diesem Namen existiert bereits.");
-        }
-
         var newUser = new User
         {
             Username = username,
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(password)
         };
-
         _context.Users.Add(newUser);
         await _context.SaveChangesAsync();
     }
 
     /// <summary>
-    /// Checks if the current user is an admin.
+    ///     Checks if the current user is an admin.
     /// </summary>
     public bool IsAdminUser()
     {
@@ -166,7 +159,7 @@ public class DataService
     }
 
     /// <summary>
-    /// Deletes a board by its ID.
+    ///     Deletes a board by its ID.
     /// </summary>
     public async Task DeleteBoardAsync(int boardId)
     {
@@ -179,7 +172,7 @@ public class DataService
     }
 
     /// <summary>
-    /// Deletes a task list by its ID.
+    ///     Deletes a task list by its ID.
     /// </summary>
     public async Task DeleteTaskListAsync(int taskListId)
     {
@@ -192,7 +185,7 @@ public class DataService
     }
 
     /// <summary>
-    /// Deletes a task by its ID.
+    ///     Deletes a task by its ID.
     /// </summary>
     public async Task DeleteTaskAsync(int taskId)
     {

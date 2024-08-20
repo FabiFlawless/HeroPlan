@@ -1,50 +1,43 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-
-namespace HeroPlan
+﻿namespace HeroPlan;
+/// <summary>
+///     Interaction logic for UserRegistrationWindow.xaml
+/// </summary>
+public partial class UserRegistrationWindow : Window
 {
+    private readonly DataService _dataService;
+
     /// <summary>
-    /// Interaction logic for UserRegistrationWindow.xaml
+    ///     Initializes a new instance of the UserRegistrationWindow.
     /// </summary>
-    public partial class UserRegistrationWindow : Window
+    /// <param name="dataService">The data service for user operations.</param>
+    public UserRegistrationWindow(DataService dataService)
     {
-        private readonly DataService _dataService;
+        InitializeComponent();
+        _dataService = dataService;
+    }
 
-        /// <summary>
-        /// Initializes a new instance of the UserRegistrationWindow.
-        /// </summary>
-        /// <param name="dataService">The data service for user operations.</param>
-        public UserRegistrationWindow(DataService dataService)
+    /// <summary>
+    ///     Handles the click event of the register button.
+    ///     Attempts to register a new user with the provided username and password.
+    /// </summary>
+    private async void RegisterButton_Click(object sender, RoutedEventArgs e)
+    {
+        var username = UsernameTextBox.Text;
+        var password = PasswordBox.Password;
+        if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
         {
-            InitializeComponent();
-            _dataService = dataService;
+            MessageBox.Show("Please enter a username and password.");
+            return;
         }
-
-        /// <summary>
-        /// Handles the click event of the register button.
-        /// Attempts to register a new user with the provided username and password.
-        /// </summary>
-        private async void RegisterButton_Click(object sender, RoutedEventArgs e)
+        try
         {
-            var username = UsernameTextBox.Text;
-            var password = PasswordBox.Password;
-
-            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
-            {
-                MessageBox.Show("Please enter a username and password.");
-                return;
-            }
-
-            try
-            {
-                await _dataService.AddUserAsync(username, password);
-                MessageBox.Show("User successfully registered.");
-                Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error during registration: {ex.Message}");
-            }
+            await _dataService.AddUserAsync(username, password);
+            MessageBox.Show("User successfully registered.");
+            Close();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Error during registration: {ex.Message}");
         }
     }
 }

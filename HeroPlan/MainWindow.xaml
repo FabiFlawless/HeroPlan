@@ -33,9 +33,9 @@
                        HorizontalAlignment="Center" Margin="0,15,0,15" />
 
             <!-- User management button (visible only for admin) -->
-            <Button x:Name="UserManagementButton" DockPanel.Dock="Bottom" Content="👤" 
-                    Margin="10,10,10,20" Padding="5" Background="#0079BF" Foreground="White" 
-                    Click="UserManagementButton_Click" Visibility="Collapsed"/>
+            <Button x:Name="UserManagementButton" DockPanel.Dock="Bottom" Content="👤"
+                    Margin="10,10,10,20" Padding="5" Background="#0079BF" Foreground="White"
+                    Click="UserManagementButton_Click" Visibility="Collapsed" />
 
             <!-- Button to create a new board -->
             <Button DockPanel.Dock="Bottom" Content="New Board" Margin="10,10,10,20"
@@ -53,7 +53,8 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding Name}" FontSize="14" VerticalAlignment="Center" TextAlignment="Center" />
+                            <TextBlock Text="{Binding Name}" FontSize="14" VerticalAlignment="Center"
+                                       TextAlignment="Center" />
                             <!-- Button to edit the project -->
                             <Button Grid.Column="1" Content="✏️" Click="EditProject_Click"
                                     Background="Transparent" BorderThickness="0" Padding="5,0,0,0"
@@ -82,7 +83,8 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <!-- Layout for each task list -->
-                            <Border Background="#EBECF0" CornerRadius="3" Width="240" Margin="15,0,10,10" VerticalAlignment="Top">
+                            <Border Background="#EBECF0" CornerRadius="3" Width="240" Margin="15,0,10,10"
+                                    VerticalAlignment="Top">
                                 <StackPanel Margin="10" VerticalAlignment="Top">
                                     <StackPanel Margin="10">
                                         <!-- Header of the task list with name and buttons -->
@@ -92,7 +94,8 @@
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock Text="{Binding Name}" FontWeight="Bold" TextAlignment="Center" VerticalAlignment="Center" />
+                                            <TextBlock Text="{Binding Name}" FontWeight="Bold" TextAlignment="Center"
+                                                       VerticalAlignment="Center" />
                                             <!-- Button to edit the list -->
                                             <Button Grid.Column="1" Content="✏️" Click="EditList_Click"
                                                     Background="Transparent" BorderThickness="0" Padding="5,0,0,0"
@@ -124,22 +127,30 @@
                                                                 <ColumnDefinition Width="Auto" />
                                                             </Grid.ColumnDefinitions>
                                                             <!-- Task name -->
-                                                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap" FontWeight="Bold"
-                                                                       VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap"
+                                                                       FontWeight="Bold"
+                                                                       VerticalAlignment="Center"
+                                                                       HorizontalAlignment="Center"
                                                                        TextAlignment="Center" Grid.ColumnSpan="3" />
                                                             <!-- Button to edit the task -->
                                                             <Button Grid.Column="1" Content="✏️" Click="EditTask_Click"
-                                                                    Background="Transparent" BorderThickness="0" Padding="5,0,0,0"
-                                                                    VerticalAlignment="Center" HorizontalAlignment="Right" />
+                                                                    Background="Transparent" BorderThickness="0"
+                                                                    Padding="5,0,0,0"
+                                                                    VerticalAlignment="Center"
+                                                                    HorizontalAlignment="Right" />
                                                             <!-- Button to delete the task -->
-                                                            <Button Grid.Column="2" Content="🗑️" Click="DeleteTask_Click"
-                                                                    Background="Transparent" BorderThickness="0" Padding="5,0,0,0"
-                                                                    VerticalAlignment="Center" HorizontalAlignment="Right" />
+                                                            <Button Grid.Column="2" Content="🗑️"
+                                                                    Click="DeleteTask_Click"
+                                                                    Background="Transparent" BorderThickness="0"
+                                                                    Padding="5,0,0,0"
+                                                                    VerticalAlignment="Center"
+                                                                    HorizontalAlignment="Right" />
                                                             <!-- Display of deadline with color highlight for overdue tasks -->
                                                             <TextBlock Grid.Row="1" Grid.ColumnSpan="3"
                                                                        Text="{Binding Deadline, StringFormat='Deadline: {0:d}', TargetNullValue='No Deadline'}"
                                                                        Foreground="{Binding IsOverdue, Converter={StaticResource BoolToColorConverter}}"
-                                                                       FontSize="11" Margin="0,5,0,0" HorizontalAlignment="Center" />
+                                                                       FontSize="11" Margin="0,5,0,0"
+                                                                       HorizontalAlignment="Center" />
                                                         </Grid>
                                                     </Border>
                                                 </DataTemplate>
